@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
+	<head>
+		<title>Hotspot login</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<meta http-equiv="pragma" content="no-cache"/>
+        
+	</head>
+	<body style="background-color:#333">
+		<center>
+			<div style="text-align: center; font-family: 'Arial, sans-serif'; font-size:22px; color:white;">
+				<br/>Redirecting to Welcome Portal...<br/>
+			</div>
+            <div id="RedirectError" style="display: none; text-align: center; font-family: 'Arial, sans-serif'; font-size:22px; color:red;">
+                <br/>Redirect error!<br/>Connection lost, Welcome Portal not reachable or walled garden not updated!<br/>
+            </div>
+			<form id="redirect" name="redirect" action="" method="post">
+				<input type="hidden" name="domain" value="INF-IBI"/>
+				<input type="hidden" name="hotspotname" value="INF-IBI-GW"/>
+                <input type="hidden" name="servername" value="74:4D:28:C7:F4:06"/>
+				<input type="hidden" name="mac" value="84:4B:F5:62:27:DB"/>
+				<input type="hidden" name="ip" value="172.16.7.182"/>
+				<input type="hidden" name="username" value=""/>
+				<input type="hidden" name="link-login" value="http://logout.guest-wifi.co.uk/login?dst=http%3A%2F%2Fwww.eclipse.org%2Frecommenders%2Ffeeds%2Fide.rss"/>
+				<input type="hidden" name="link-orig" value="http://www.eclipse.org/recommenders/feeds/ide.rss"/>
+				<input type="hidden" name="error" value=""/>
+				<input type="hidden" name="chap-id" value="\042"/>
+				<input type="hidden" name="chap-challenge" value="\125\166\054\013\337\120\250\062\013\366\004\217\051\100\213\233"/>
+				<input type="hidden" name="link-login-only" value="http://logout.guest-wifi.co.uk/login"/>
+				<input type="hidden" name="identity" value="INF-IBI-GW"/>
+			</form>
+			<script>
+			    var UrlCount = 1;
+			    var Url = [];
+			    var AlreadyChecked = [false, false, false];
+			    var ReadyUrl = 0;
+
+			    Url[0] = "portal.guest-wifi.co.uk";
+			    Url[1] = "";
+			    Url[2] = "";
+
+			    var Redirected = false;
+			    function CheckServer(CheckUrl) {
+			        var ImageObject = new Image();
+			        ImageObject.src = "//" + CheckUrl + "/images/chk.gif?r=" + Math.floor(Math.random() * 99999);
+			        ImageObject.onload = function() {
+			            if ('naturalHeight' in this) {
+			                if (this.naturalHeight + this.naturalWidth === 0) {
+			                    Start();
+			                    return;
+			                }
+			            } else if (this.width + this.height == 0) {
+			                Start();
+			                return;
+			            }
+			            if (!Redirected) {
+			                Redirected = true;
+			                clearTimeout(RedirectTimeout);
+			                document.redirect.action = "//" + CheckUrl + "/portal/index.php";
+			                document.redirect.submit();
+			            }
+			            else {
+			                Start();
+			            }
+			        };
+			        ImageObject.onerror = function() {
+			            //	Retry another URL
+			            Start();
+			        };
+			    }
+				
+			    function Start() {
+			        var found = false;
+			        for (var i = 0; i < UrlCount * 5 + 1; i++) {
+			            ReadyUrl = Math.floor((Math.random() * UrlCount));
+			            if (!AlreadyChecked[ReadyUrl]) {
+			                AlreadyChecked[ReadyUrl] = true;
+			                CheckServer(Url[ReadyUrl]);
+			                found = true;
+			                break;
+			            }
+			        }
+
+			        if (!found) {document.redirect.action = "//" + Url[0] + "/portal/index.php";}
+			    }
+
+			    Start();
+
+			    var RedirectTimeout = setTimeout("ShowRedirectError()", 15000);
+
+			    function ShowRedirectError() {
+			        document.getElementById("RedirectError").style.display = 'block';
+			    }
+			</script>
+		</center>
+	</body>
+</html>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite guice-stage="DEVELOPMENT" name="Failed suite [Suite]">
+  <test thread-count="5" name="Test(failed)">
+    <groups>
+      <run>
+        <exclude name="customer"/>
+      </run>
+    </groups>
+    <classes>
+      <class name="testingtopic.TC008">
+        <methods>
+          <include name="logout"/>
+          <include name="createProject"/>
+          <include name="deleteProject"/>
+          <include name="closeApp"/>
+          <include name="login"/>
+          <include name="testValidLogin"/>
+          <include name="openApp"/>
+        </methods>
+      </class> <!-- testingtopic.TC008 -->
+    </classes>
+  </test> <!-- Test(failed) -->
+</suite> <!-- Failed suite [Suite] -->

@@ -1,0 +1,35 @@
+package HnadlingMultipleElements;
+
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class HandlingAutoSuggestions1 
+{
+	public static void main(String[] args) throws InterruptedException {
+		System.setProperty("webdriver.chrome.driver", "./drivers/chromedriver.exe");
+		WebDriver driver = new ChromeDriver();
+	    driver.manage().window().maximize();
+		driver.get("https://www.google.com");
+		
+		driver.findElement(By.name("q")).sendKeys("selenium");
+		
+		Thread.sleep(5000);
+		
+		List<WebElement> autoSuggestions = driver.findElements(By.className("sbct"));
+		System.out.println(autoSuggestions.size());
+		for(WebElement autoSuggestion:autoSuggestions) {
+			if(autoSuggestion.getText().equals("selenium tablets")) {
+				autoSuggestion.click();
+				break;
+				
+			  }
+			}
+		}
+		
+	
+
+}
